@@ -2,7 +2,12 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { sequelize, connectToDatabase } from './Config/config.js';
 import authRoutes from './Routes/auth.js';
+import teamRoutes from './Routes/team.js';
+import projectRoutes from './Routes/project.js';
 import './Models/User.js';
+import './Models/Team.js';
+import './Models/TeamMember.js';
+import './Models/Project.js';
 
 dotenv.config();
 
@@ -11,6 +16,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(authRoutes);
+app.use(teamRoutes);
+app.use(projectRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

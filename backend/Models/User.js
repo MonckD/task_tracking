@@ -28,6 +28,8 @@ const User = sequelize.define('User', {
         type: DataTypes.ENUM('admin', 'chef_projet', 'developpeur', 'designer'),
         defaultValue: 'developpeur',
     },
+}, { //soft delete
+    paranoid: true,
 });
 
 export default User;
