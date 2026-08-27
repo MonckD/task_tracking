@@ -4,10 +4,13 @@ import { sequelize, connectToDatabase } from './Config/config.js';
 import authRoutes from './Routes/auth.js';
 import teamRoutes from './Routes/team.js';
 import projectRoutes from './Routes/project.js';
+import taskRoutes from './Routes/task.js';
 import './Models/User.js';
 import './Models/Team.js';
 import './Models/TeamMember.js';
 import './Models/Project.js';
+import './Models/Task.js';
+import './Models/TaskUpdate.js';
 
 dotenv.config();
 
@@ -18,6 +21,7 @@ app.use(express.json());
 app.use(authRoutes);
 app.use(teamRoutes);
 app.use(projectRoutes);
+app.use(taskRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
