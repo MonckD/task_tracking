@@ -6,11 +6,13 @@ async function createTeam(req, res) {
     try {
         const { nom, description } = req.body;
         const team = await Team.create({ nom, description });
+
         await TeamMember.create({
             user_id: req.user.id,
             team_id: team.id,
             role_dans_equipe: 'chef_projet',
         });
+
         res.status(201).json(team);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création de l\'équipe', error: error.message });
@@ -19,9 +21,21 @@ async function createTeam(req, res) {
 
 async function getAllTeams(req, res) {
     try {
+        if (req.user.is_admin === true) {
+            const teams = await Team.findAll({
+                include: [{ model: User, as: 'members', attributes: ['id', 'nom', 'email', 'role'] }],
+            });
+            return res.json(teams);
+        }
+
+        const memberships = await TeamMember.findAll({ where: { user_id: req.user.id } });
+        const teamIds = memberships.map((m) => m.team_id);
+
         const teams = await Team.findAll({
+            where: { id: teamIds },
             include: [{ model: User, as: 'members', attributes: ['id', 'nom', 'email', 'role'] }],
         });
+
         res.json(teams);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des équipes', error: error.message });
@@ -73,11 +87,18 @@ async function addMember(req, res) {
     try {
         const { user_id, role_dans_equipe } = req.body;
         const team_id = req.params.id;
+
         const existing = await TeamMember.findOne({ where: { user_id, team_id }, paranoid: false });
         if (existing) {
             return res.status(400).json({ message: 'Cet utilisateur est déjà dans l\'équipe' });
         }
+
         const member = await TeamMember.create({ user_id, team_id, role_dans_equipe });
+
+        if (role_dans_equipe === 'chef_projet') {
+            await User.update({ role: 'chef_projet' }, { where: { id: user_id } });
+        }
+
         res.status(201).json(member);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de l\'ajout du membre', error: error.message });

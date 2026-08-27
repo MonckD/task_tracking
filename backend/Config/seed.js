@@ -21,7 +21,8 @@ async function createAdmin() {
             email: 'admin@gmail.com',
             telephone: 'azertyui',
             password: hashedPassword,
-            role: 'admin',
+            role: 'developpeur',
+            is_admin: true,
         });
 
         console.log('Admin créé avec succès');

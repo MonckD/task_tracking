@@ -8,10 +8,11 @@ const TeamMember = sequelize.define('TeamMember', {
     primaryKey: true,
   },
   role_dans_equipe: {
-    type: DataTypes.ENUM('chef_projet', 'developpeur', 'designer'),
+    type: DataTypes.ENUM('developpeur', 'designer', 'graphiste', 'chef_projet'),
     defaultValue: 'developpeur',
   },
 }, {
   paranoid: true,
 });
 
+export default TeamMember;

@@ -3,6 +3,13 @@ import TeamMember from '../Models/TeamMember.js';
 
 async function getNotifications(req, res) {
   try {
+    if (req.user.is_admin === true) {
+      const allNotifications = await Notification.findAll({
+        order: [['createdAt', 'DESC']],
+      });
+      return res.json(allNotifications);
+    }
+
     const memberships = await TeamMember.findAll({ where: { user_id: req.user.id } });
     const teamIds = memberships.map((m) => m.team_id);
 

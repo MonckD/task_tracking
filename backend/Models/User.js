@@ -25,10 +25,15 @@ const User = sequelize.define('User', {
         allowNull: false,
     },
     role: {
-        type: DataTypes.ENUM('admin', 'chef_projet', 'developpeur', 'designer'),
+        type: DataTypes.ENUM('developpeur', 'designer', 'graphiste', 'chef_projet'),
         defaultValue: 'developpeur',
     },
-}, { //soft delete
+    is_admin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+}, {
+    // soft delete 
     paranoid: true,
 });
 
