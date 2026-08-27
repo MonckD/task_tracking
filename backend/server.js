@@ -7,6 +7,8 @@ import teamRoutes from './Routes/team.js';
 import projectRoutes from './Routes/project.js';
 import taskRoutes from './Routes/task.js';
 import chatRoutes from './Routes/chat.js';
+import notificationRoutes from './Routes/notification.js';
+import webhookRoutes from './Routes/webhook.js';
 import { initSocket } from './Config/socket.js';
 import './Models/User.js';
 import './Models/Team.js';
@@ -15,6 +17,7 @@ import './Models/Project.js';
 import './Models/Task.js';
 import './Models/TaskUpdate.js';
 import './Models/Message.js';
+import './Models/Notification.js';
 
 dotenv.config();
 
@@ -28,6 +31,8 @@ app.use(teamRoutes);
 app.use(projectRoutes);
 app.use(taskRoutes);
 app.use(chatRoutes);
+app.use(notificationRoutes);
+app.use(webhookRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
