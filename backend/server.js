@@ -18,6 +18,7 @@ import './Models/Task.js';
 import './Models/TaskUpdate.js';
 import './Models/Message.js';
 import './Models/Notification.js';
+import './Models/associations.js';
 
 dotenv.config();
 

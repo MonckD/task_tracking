@@ -1,0 +1,35 @@
+stages : 
+- test
+- build 
+
+backend:
+  stage: test
+  image: node:22-alpine
+  script:
+    - cd backend
+    - npm ci 
+    - npm test
+
+  cache:
+    key:
+    files:
+      - backend/package-lock.json
+    paths:
+      - backend/node_modules/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+backend:
+  stage: build
+  image: docker:27
+  services:
+    - docker:dind
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA ./backend
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+
+    

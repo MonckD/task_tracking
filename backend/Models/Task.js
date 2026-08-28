@@ -1,8 +1,5 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../Config/config.js';
-import User from './User.js';
-import Project from './Project.js';
-import TaskUpdate from './TaskUpdate.js';
 
 const Task = sequelize.define('Task', {
   id: {
@@ -28,10 +25,5 @@ const Task = sequelize.define('Task', {
 }, {
   paranoid: true,
 });
-
-Task.belongsTo(User, { as: 'assignee', foreignKey: 'assigned_to' });
-Task.belongsTo(User, { as: 'creator', foreignKey: 'created_by' });
-Task.belongsTo(Project, { foreignKey: 'project_id' });
-Task.hasMany(TaskUpdate, { foreignKey: 'task_id' });
 
 export default Task;
